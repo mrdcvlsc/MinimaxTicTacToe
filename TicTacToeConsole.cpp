@@ -8,7 +8,8 @@
 
 #include "TicTacToe.hpp"
 
-static constexpr std::uint32_t GRID = 3;
+static constexpr std::uint32_t GRID = 5;
+static constexpr std::uint32_t DEPTH = 5;
 
 void player_input(ttt::TicTacToe<GRID> &board, std::uint32_t &row, std::uint32_t &col);
 void check_game_result(std::uint32_t game_status);
@@ -26,8 +27,7 @@ int main() {
     ttt::TicTacToe<GRID> board;
     board.print_board();
 
-    constexpr std::uint32_t depth = 10;
-    std::uint32_t           game_status = ttt::ONGOING, row, col;
+    std::uint32_t game_status = ttt::ONGOING, row, col;
 
     if (player == 0) {
         // ========================================================================================
@@ -55,7 +55,7 @@ int main() {
 
             std::cout << "computer moving...\n";
 
-            ttt::Move com = board.get_computer_move(depth);
+            ttt::Move com = board.get_computer_move(DEPTH);
             game_status = board.make_move(com.i, com.j);
             board.print_board();
 
@@ -87,7 +87,7 @@ int main() {
 
                     game_status = board.make_move(a, b);
                 } else {
-                    ttt::Move com = board.get_computer_move(depth);
+                    ttt::Move com = board.get_computer_move(DEPTH);
                     game_status = board.make_move(com.i, com.j);
                 }
 

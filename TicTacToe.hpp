@@ -9,6 +9,8 @@
 #include <iostream>
 #include <limits>
 #include <stddef.h>
+#include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include <map>
@@ -37,12 +39,12 @@ namespace ttt {
 
     template <std::uint32_t grid_n>
     struct TicTacToe {
-        std::uint32_t                                           current_player;
-        std::int32_t                                            ply;
-        std::uint32_t                                           status;
-        std::array<std::array<uchar, grid_n>, grid_n>           board;
-        std::array<Move, grid_n * grid_n>                       move_history;
-        std::map<std::array<std::array<uchar, grid_n>, grid_n>, Move> tree_table;
+        std::uint32_t                                                  current_player;
+        std::int32_t                                                   ply;
+        std::uint32_t                                                  status;
+        std::array<std::array<uchar, grid_n>, grid_n>                  board;
+        std::array<Move, grid_n * grid_n>                              move_history;
+        std::map<std::array<std::array<uchar, grid_n>, grid_n>, float> tree_table;
 
         TicTacToe() : current_player(PLAYER1), ply(-1), status(ONGOING), board{}, move_history{} {
             for (auto &row: board) {
@@ -125,17 +127,14 @@ namespace ttt {
         }
 
         Move minimax(std::uint32_t maximizing_player, std::uint32_t depth) {
+            std::vector<Move> moves = generate_moves();
+            Move              best_move = {EMPTY, EMPTY, maximizing_player, 0};
+
             std::uint32_t winner = check_winning_last_move();
             std::uint32_t remaining_turns = (grid_n * grid_n) - 1 - ply;
 
-            // if leaf node, return heuristic value
-            if (depth == 0 || remaining_turns == 0 || winner == DRAW) {
-                return {0, 0, EMPTY, 0};
-            }
-
-            // evaluation
-
-            Move best_move = {EMPTY, EMPTY, maximizing_player, 0};
+            // evaluation for player winners should always come first before the depth checks to prevent returning 0
+            // score moves at leaf nodes since my depth == 0 conditions returns 0 score moves
 
             if (winner == PLAYER1) {
                 best_move.score = 1.f * (remaining_turns == 0 ? 1.f : static_cast<float>(remaining_turns));
@@ -147,21 +146,21 @@ namespace ttt {
                 return best_move;
             }
 
-            // use the very first generated available move if there is no best move found in the search.
-
-            std::vector<Move> moves = generate_moves();
-            best_move.i = moves[0].i;
-            best_move.j = moves[0].j;
+            // if leaf node : return heuristic value | But since I don't implement a way to evaluate the board's
+            // "non-leaf nodes" so I'm just returning a zero score.
+            if (depth == 0 || moves.size() == 0) {
+                return {0, 0, EMPTY, 0};
+            }
 
             // recursize minimax search
 
             if (maximizing_player == PLAYER1) {
                 best_move.score = -std::numeric_limits<float>::max();
                 for (auto &move: moves) {
-                    force_make_move(move.i, move.j);
 
-                    // auto iter = tree_table.find(board);
-                    // if (iter == tree_table.cend()) {
+                    force_make_move(move.i, move.j);
+                    auto iter = tree_table.find(board);
+                    if (iter == tree_table.end()) {
                         float evaluation_score = minimax(PLAYER2, depth - 1).score;
                         move.score = evaluation_score;
                         if (evaluation_score > best_move.score) {
@@ -169,25 +168,24 @@ namespace ttt {
                             best_move.i = move.i;
                             best_move.j = move.j;
                         }
-                    //     tree_table[board] = best_move;
-                    // } else {
-                    //     auto saved_move = tree_table[board];
-                    //     if (saved_move.score > best_move.score) {
-                    //         best_move.score = saved_move.score;
-                    //         best_move.i = saved_move.i;
-                    //         best_move.j = saved_move.j;
-                    //     }
-                    // }
-
+                        tree_table.emplace(board, evaluation_score);
+                    } else {
+                        float saved_score = iter->second;
+                        if (saved_score > best_move.score) {
+                            best_move.score = saved_score;
+                            best_move.i = move.i;
+                            best_move.j = move.j;
+                        }
+                    }
                     force_unmake_move();
                 }
             } else {
                 best_move.score = std::numeric_limits<float>::max();
                 for (auto &move: moves) {
-                    force_make_move(move.i, move.j);
 
-                    // auto iter = tree_table.find(board);
-                    // if (iter == tree_table.cend()) {
+                    force_make_move(move.i, move.j);
+                    auto iter = tree_table.find(board);
+                    if (iter == tree_table.end()) {
                         float evaluation_score = minimax(PLAYER1, depth - 1).score;
                         move.score = evaluation_score;
                         if (evaluation_score < best_move.score) {
@@ -195,16 +193,15 @@ namespace ttt {
                             best_move.i = move.i;
                             best_move.j = move.j;
                         }
-                    //     tree_table[board] = best_move;
-                    // } else {
-                    //     auto saved_move = tree_table[board];
-                    //     if (saved_move.score < best_move.score) {
-                    //         best_move.score = saved_move.score;
-                    //         best_move.i = saved_move.i;
-                    //         best_move.j = saved_move.j;
-                    //     }
-                    // }
-
+                        tree_table.emplace(board, evaluation_score);
+                    } else {
+                        float saved_score = iter->second;
+                        if (saved_score < best_move.score) {
+                            best_move.score = saved_score;
+                            best_move.i = move.i;
+                            best_move.j = move.j;
+                        }
+                    }
                     force_unmake_move();
                 }
             }
