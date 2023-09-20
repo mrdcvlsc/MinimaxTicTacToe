@@ -6,7 +6,7 @@
 #include <iostream>
 
 int main() {
-    constexpr size_t     GRID = 3;
+    constexpr size_t     GRID = 2;
     ttt::TicTacToe<GRID> board;
 
     board.get_computer_move(GRID * GRID + 1);

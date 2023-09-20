@@ -152,7 +152,7 @@ namespace ttt {
                 return {0, 0, EMPTY, 0};
             }
 
-            // recursize minimax search
+            // recursive minimax search
 
             if (maximizing_player == PLAYER1) {
                 best_move.score = -std::numeric_limits<float>::max();

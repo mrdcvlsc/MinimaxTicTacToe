@@ -1,20 +1,19 @@
 # MinimaxTicTacToe
 
-![tests](https://github.com/mrdcvlsc/MinimaxTicTacToe/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/mrdcvlsc/MinimaxTicTacToe/actions/workflows/tests.yml/badge.svg)
 
-Just another minimax TicTacToe program
+This is another implementation of a minimax Tic-Tac-Toe program.
 
-An optimized C++ version of my minimax program that I have recently written in
-javascript : [minimax-tic-tac-toe](https://github.com/mrdcvlsc/minimax-tic-tac-toe)
+I have optimized this version in C++, building upon my previous implementation in JavaScript, which you can find here: [minimax-tic-tac-toe](https://github.com/mrdcvlsc/minimax-tic-tac-toe).
 
-I used this program to get all of the possible board state of a tic-tac-toe game that
-is reachable through "**normal play**". The _normal play_ here means two players alternately
-putting 'x' and 'o' on an empty square in the tic-tac-toe board until someone wins, or draw
-by filling the empty square in the board without a player winning.
+I have employed this program to enumerate all possible board states of a Tic-Tac-Toe game achievable through "normal play." In this context, "normal play" refers to two players taking turns placing 'X' and 'O' on an empty square on the Tic-Tac-Toe board until someone wins or the board is filled without a winner.
 
 Current Results:
-- For a **3x3** tic-tac-toe game, it seems that there is a total of **5,477** positions
-though normal play excluding the empty board state.
 
-- On the other hand, a **4x4** tic-tac-toe game seems to have a total of **9,772,010** positions
-achiveable though normal play (excluding the empty board state).
+- Surprisingly, for a small **2x2** Tic-Tac-Toe game, there appear to be a total of **28** possible positions achievable through normal play, excluding the empty board state.
+
+- In the case of a **3x3** Tic-Tac-Toe game, there are a total of **5,477** positions achievable through normal play, excluding the empty board state.
+
+- Conversely, a **4x4** Tic-Tac-Toe game seems to have a total of **9,772,010** positions achievable through normal play, excluding the empty board state.
+
+- For other boards sizes greater than or equal to **5x5**... well there's a lot.

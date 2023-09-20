@@ -1,0 +1,42 @@
+name: tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  clang:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build
+      run: make test CXX=clang++
+
+    - name: Run tests
+      run: ./tests.out
+
+  gcc:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build
+      run: make test CXX=g++
+
+    - name: Run tests
+      run: ./tests.out
