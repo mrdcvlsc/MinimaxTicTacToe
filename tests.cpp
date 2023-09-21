@@ -1,9 +1,10 @@
 // WHEN A BUG IS FOUND, PLEASE ADD THE TEST HERE FIRST THEN FIX IT
 // DON'T REMOVE PREVIOUS TEST CASES, ONLY UPDATE IT IF THERE'S INTERNAL CHANGES
 
-#include "TicTacToe.hpp"
-#include <assert.h>
 #include <iostream>
+#include <assert.h>
+
+#include "TicTacToe.hpp"
 
 int main() {
     ttt::TicTacToe<3> board;

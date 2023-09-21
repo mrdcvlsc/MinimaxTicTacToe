@@ -157,7 +157,6 @@ namespace ttt {
             if (maximizing_player == PLAYER1) {
                 best_move.score = -std::numeric_limits<float>::max();
                 for (auto &move: moves) {
-
                     force_make_move(move.i, move.j);
                     auto iter = tree_table.find(board);
                     if (iter == tree_table.end()) {
@@ -182,7 +181,6 @@ namespace ttt {
             } else {
                 best_move.score = std::numeric_limits<float>::max();
                 for (auto &move: moves) {
-
                     force_make_move(move.i, move.j);
                     auto iter = tree_table.find(board);
                     if (iter == tree_table.end()) {
@@ -211,8 +209,7 @@ namespace ttt {
 
         /// \brief Get all of the possible moves for the current state of the tic-tac-toe board.
         ///
-        std::vector<Move> generate_moves() {
-            // std::vector<Move> generate_moves() const {
+        std::vector<Move> generate_moves() const {
             std::vector<Move> all_possible_moves(0);
             all_possible_moves.reserve(grid_n * grid_n - ply);
 
