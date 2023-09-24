@@ -19,6 +19,7 @@ int main() {
     game_status = board.make_move(0, 2);
 
     assert(game_status == ttt::PLAYER1);
+    assert(game_status != ttt::PLAYER2);
     board.new_game();
 
     // ==========================================================================
@@ -30,6 +31,7 @@ int main() {
     board.make_move(2, 2);
     game_status = board.make_move(1, 0);
 
+    assert(game_status != ttt::PLAYER1);
     assert(game_status == ttt::PLAYER2);
     board.new_game();
 
@@ -42,6 +44,7 @@ int main() {
     game_status = board.make_move(2, 2);
 
     assert(game_status == ttt::PLAYER1);
+    assert(game_status != ttt::PLAYER2);
     board.new_game();
 
     // ==========================================================================
@@ -53,6 +56,8 @@ int main() {
     board.make_move(0, 2);
 
     game_status = board.make_move(2, 0);
+
+    assert(game_status != ttt::PLAYER1);
     assert(game_status == ttt::PLAYER2);
     board.new_game();
 
@@ -65,6 +70,7 @@ int main() {
     board.make_move(1, 2);
     game_status = board.make_move(2, 1);
 
+    assert(game_status != ttt::PLAYER1);
     assert(game_status == ttt::PLAYER2);
     board.new_game();
 
@@ -78,6 +84,7 @@ int main() {
     board.make_move(0, 1);
     game_status = board.make_move(0, 2);
 
+    assert(game_status != ttt::PLAYER1);
     assert(game_status == ttt::PLAYER2);
     board.new_game();
 
@@ -90,6 +97,7 @@ int main() {
     board.make_move(2, 0);
     game_status = board.make_move(2, 2);
 
+    assert(game_status != ttt::PLAYER1);
     assert(game_status == ttt::PLAYER2);
     board.new_game();
 
@@ -102,6 +110,7 @@ int main() {
     game_status = board.make_move(2, 0);
 
     assert(game_status == ttt::PLAYER1);
+    assert(game_status != ttt::PLAYER2);
     board.new_game();
 
     // ==========================================================================
@@ -115,6 +124,7 @@ int main() {
     ttt::Move minimax_move1 = board.minimax(ttt::PLAYER1, 25);
 
     assert(minimax_move1.player == ttt::PLAYER1);
+    assert(minimax_move1.player != ttt::PLAYER2);
     assert(minimax_move1.i == 2);
     assert(minimax_move1.j == 0);
 
@@ -144,6 +154,7 @@ int main() {
     auto bug3Move = board.get_computer_move(1000); // x
 
     assert(bug3Move.player == ttt::PLAYER1);
+    assert(bug3Move.player != ttt::PLAYER2);
     assert(bug3Move.i == 0);
     assert(bug3Move.j == 0);
     board.new_game();
