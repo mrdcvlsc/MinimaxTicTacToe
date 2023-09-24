@@ -136,13 +136,15 @@ namespace ttt {
             // evaluation for player winners should always come first before the depth checks to prevent returning 0
             // score moves at leaf nodes since my depth == 0 conditions returns 0 score moves
 
+            float node_evaluation = remaining_turns == 0 ? 1.f : static_cast<float>(remaining_turns);
+
             if (winner == PLAYER1) {
-                best_move.score = 1.f * (remaining_turns == 0 ? 1.f : static_cast<float>(remaining_turns));
+                best_move.score = node_evaluation;
                 return best_move;
             }
 
             if (winner == PLAYER2) {
-                best_move.score = -1.f * (remaining_turns == 0 ? 1.f : static_cast<float>(remaining_turns));
+                best_move.score = -node_evaluation;
                 return best_move;
             }
 
