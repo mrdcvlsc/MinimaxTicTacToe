@@ -16,7 +16,7 @@ _Again all of these results does not consider board rotations, flips, or mirrors
 
 - Surprisingly, for a small **2x2** Tic-Tac-Toe game, there appears to be a total of **28** possible positions achievable through normal play.
 
-    **[Time took : ~36 microseconds]**
+    **[Time took : ~23 microseconds]**
 
 - In the case of a **3x3** Tic-Tac-Toe game, there are a total of **5,477** positions achievable through normal play.
 
@@ -24,4 +24,4 @@ _Again all of these results does not consider board rotations, flips, or mirrors
 
 - Conversely, a **4x4** Tic-Tac-Toe game seems to have a total of **9,722,010** positions achievable through normal play.
 
-    **[Time took : ~35 seconds, Memory usage : 500+ MB]**
+    **[Time took : ~32 seconds, Memory usage : 500+ MB]**
